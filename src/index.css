@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  --color-night: #0d1524;
+  --color-panel: #15203a;
+  --color-panel-2: #1c2a4a;
+  --color-sky: #7cc4ff;
+  --color-sun: #ffc14d;
+  --color-muted: #8a99b8;
+  --color-ink: #e8eefc;
+  --color-on-accent: #0d1524;
+  --color-line: rgb(255 255 255 / 0.1);
+
+  --text-display: clamp(4.5rem, 14vw, 8rem);
+  --text-display--line-height: 1;
+  --text-title: 1.5rem;
+  --text-title--line-height: 2rem;
+  --text-heading: 1.125rem;
+  --text-heading--line-height: 1.75rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5rem;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.25rem;
+
+  --radius-card: 2rem;
+  --radius-tile: 1.5rem;
+  --radius-pill: 999px;
+}
+
+/* ===== Light theme: শুধু রং বদলায় ===== */
+:root[data-theme="light"] {
+  --color-night: #eef3fb;
+  --color-panel: #ffffff;
+  --color-panel-2: #e2eaf7;
+  --color-muted: #566583;
+  --color-ink: #0d1524;
+  --color-line: rgb(13 21 36 / 0.12);
+}
+
+:root { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
+
+body {
+  background: var(--color-night);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
+.skeleton { animation: shimmer 1.4s ease-in-out infinite; background: var(--color-panel-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  body { transition: none; }
+}
