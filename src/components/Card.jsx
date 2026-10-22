@@ -1,8 +1,7 @@
 
 const TONES = {
   default: 'bg-panel',
-  raised: 'bg-panel-2 ring-1 ring-sky/50',
-  accent: 'bg-sky text-on-accent',
+  raised: 'bg-panel-2 ring-1 ring-accent/50',
 }
 const RADII = { card: 'rounded-card', tile: 'rounded-tile' }
 

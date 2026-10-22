@@ -1,6 +1,5 @@
 import Card from './Card'
 
-// error / not found / empty সব অবস্থার জন্য একই component
 export default function StatusMessage({ icon, title, text, children }) {
   return (
     <Card radius="card" className="mx-auto mt-4 max-w-md p-8 text-center sm:mt-10">

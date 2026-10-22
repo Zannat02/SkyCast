@@ -1,4 +1,3 @@
-import Card from './Card'
 import Button from './Button'
 import PlaceItem from './PlaceItem'
 
@@ -22,7 +21,7 @@ export default function PlacesPanel({ text, places, loading, error, onRetry, sel
       return (
         <div className="flex flex-col items-start gap-3 px-2 py-4">
           <p className="text-caption text-muted">Couldn’t search places. Check your connection and try again.</p>
-          <Button variant="accent" size="sm" onClick={onRetry}>Retry</Button>
+          <Button size="sm" onClick={onRetry}>Retry</Button>
         </div>
       )
     }
@@ -39,11 +38,8 @@ export default function PlacesPanel({ text, places, loading, error, onRetry, sel
   }
 
   return (
-    <Card as="section" radius="card" className="p-4 sm:p-5">
-      <h2 className="mb-3 text-heading font-bold">Places</h2>
-      <div className="max-h-72 overflow-y-auto lg:max-h-[32rem]" aria-live="polite">
-        {renderBody()}
-      </div>
-    </Card>
+    <div className="max-h-72 overflow-y-auto lg:max-h-none" aria-live="polite">
+      {renderBody()}
+    </div>
   )
 }

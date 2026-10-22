@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
+
 @theme {
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Urbanist", ui-sans-serif, system-ui, sans-serif;
 
-  --color-night: #0d1524;
-  --color-panel: #15203a;
-  --color-panel-2: #1c2a4a;
-  --color-sky: #7cc4ff;
-  --color-sun: #ffc14d;
-  --color-muted: #8a99b8;
-  --color-ink: #e8eefc;
-  --color-on-accent: #0d1524;
-  --color-line: rgb(255 255 255 / 0.1);
+  --color-night: #171638;
+  --color-panel: #13132f;
+  --color-panel-2: #313155;
+  --color-accent: #7f66fc;
+  --color-muted: #a3a1c8;
+  --color-ink: #f4f3ff;
+  --color-on-accent: #ffffff;
+  --color-ring-track: #dcdcf8;
+  --color-line: rgb(255 255 255 / 0.08);
 
-  --text-display: clamp(4.5rem, 14vw, 8rem);
+  --text-display: clamp(4rem, 10vw, 5.5rem);
   --text-display--line-height: 1;
   --text-title: 1.5rem;
   --text-title--line-height: 2rem;
@@ -24,30 +25,40 @@
   --text-caption: 0.875rem;
   --text-caption--line-height: 1.25rem;
 
-  --radius-card: 2rem;
-  --radius-tile: 1.5rem;
+  --radius-card: 1.75rem;
+  --radius-tile: 1.25rem;
   --radius-pill: 999px;
 }
 
-/* ===== Light theme: শুধু রং বদলায় ===== */
-:root[data-theme="light"] {
-  --color-night: #eef3fb;
-  --color-panel: #ffffff;
-  --color-panel-2: #e2eaf7;
-  --color-muted: #566583;
-  --color-ink: #0d1524;
-  --color-line: rgb(13 21 36 / 0.12);
+:root {
+  --bg-from: #171638;
+  --bg-to: #47476d;
+  color-scheme: dark;
 }
 
-:root { color-scheme: dark; }
-:root[data-theme="light"] { color-scheme: light; }
+
+:root[data-theme="light"] {
+  --bg-from: #eef0ff;
+  --bg-to: #d6d9f4;
+  --color-night: #eef0ff;
+  --color-panel: #ffffff;
+  --color-panel-2: #ebebfb;
+  --color-accent: #6a50f0;
+  --color-muted: #5b5a85;
+  --color-ink: #14122e;
+  --color-ring-track: #e1e0fa;
+  --color-line: rgb(19 19 47 / 0.1);
+  color-scheme: light;
+}
 
 body {
-  background: var(--color-night);
+  min-height: 100vh;
+  background-color: var(--color-night);
+  background-image: linear-gradient(180deg, var(--bg-from), var(--bg-to));
+  background-attachment: fixed;
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: var(--text-body);
-  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 @keyframes shimmer {
@@ -58,5 +69,4 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .skeleton { animation: none; }
-  body { transition: none; }
 }

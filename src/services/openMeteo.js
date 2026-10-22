@@ -2,7 +2,7 @@ const GEO_URL = 'https://geocoding-api.open-meteo.com/v1/search'
 const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast'
 
 
-export class NetworkError extends Error {}
+export class NetworkError extends Error { }
 
 
 const params = new URLSearchParams(window.location.search)
@@ -15,7 +15,7 @@ async function getJson(url) {
 
   let response
   try {
-    response = await fetch(url) 
+    response = await fetch(url)
   } catch {
     throw new NetworkError('Network request failed')
   }
@@ -32,23 +32,23 @@ async function getJson(url) {
 
 export async function searchPlaces(text) {
   const query = text.trim()
-  if (query.length < 2) return [] 
+  if (query.length < 2) return []
 
   const data = await getJson(`${GEO_URL}?name=${encodeURIComponent(query)}&count=10`)
 
-  
+
   const results = data.results ?? []
 
   return results
     .map((r) => ({
       id: r.id,
       name: r.name,
-      region: r.admin1, 
+      region: r.admin1,
       country: r.country,
       countryCode: r.country_code,
       latitude: r.latitude,
       longitude: r.longitude,
-      population: r.population ?? 0, 
+      population: r.population ?? 0,
     }))
     .sort((a, b) => b.population - a.population)
 }
@@ -58,8 +58,8 @@ export async function fetchForecast({ latitude, longitude }) {
   const query = new URLSearchParams({
     latitude,
     longitude,
-    current: 'temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,pressure_msl,cloud_cover,weather_code',
-    hourly: 'temperature_2m,weather_code,wind_speed_10m,precipitation_probability,uv_index',
+    current: 'temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,pressure_msl,cloud_cover,weather_code,is_day',
+    hourly: 'temperature_2m,weather_code,wind_speed_10m,precipitation_probability,uv_index,is_day',
     daily: 'weather_code,temperature_2m_max,temperature_2m_min',
     forecast_days: 7,
     timezone: 'auto',
@@ -76,6 +76,7 @@ export async function fetchForecast({ latitude, longitude }) {
     wind: h.wind_speed_10m[i],
     rain: h.precipitation_probability[i],
     uv: h.uv_index[i],
+    isDay: h.is_day ? h.is_day[i] === 1 : true,
   }))
 
   const nowIndex = Math.max(0, hours.findIndex((x) => x.time.startsWith(d.current.time.slice(0, 13))))
@@ -95,11 +96,13 @@ export async function fetchForecast({ latitude, longitude }) {
       pressure: d.current.pressure_msl,
       cloudCover: d.current.cloud_cover,
       code: d.current.weather_code,
+      isDay: d.current.is_day == null ? true : d.current.is_day === 1,
     },
-    rainChance: hours[nowIndex].rain, 
-    uvMax: Math.max(...todayHours.map((x) => x.uv)), 
+    rainChance: hours[nowIndex].rain,
+    uvMax: Math.max(...todayHours.map((x) => x.uv)),
     dayParts: { morning: tempAt(6), afternoon: tempAt(12), evening: tempAt(18), night: tempAt(22) },
-    hourly: hours.slice(nowIndex, nowIndex + 24), 
+    todayTemps: todayHours.map((x) => x.temp),
+    hourly: hours.slice(nowIndex, nowIndex + 24),
     daily: d.daily.time.map((date, i) => ({
       date,
       code: d.daily.weather_code[i],
